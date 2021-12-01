@@ -1,0 +1,15 @@
+{
+  "name": "adventofcode2021",
+  "version": "1.0.0",
+  "description": "Advent of code 2021",
+  "repository": "git@github.com:LucasCtrl/adventofcode2021",
+  "author": "LucasCtrl <lucasalt@protonmail.com>",
+  "license": "Unlicence",
+  "private": true,
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.0"
+  }
+}
