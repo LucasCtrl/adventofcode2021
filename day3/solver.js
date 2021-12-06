@@ -1,4 +1,3 @@
-const { execSync } = require('child_process')
 const fs = require('fs')
 const read = fs.readFileSync('./day3/input.txt')
 let data = read.toString().split('\n').map(String)
@@ -12,13 +11,13 @@ function part1() {
   for (let i = 0; i < data[0].length; i++) {
     let zero = 0
     let one = 0
-    data.forEach(v => {
+    data.forEach((v) => {
       v[i] == 0 ? zero++ : one++
     })
 
     console.log(zero, one)
-    zero > one ? gamma += '0' : gamma += '1'
-    zero < one ? epsilon += '0' : epsilon += '1'
+    zero > one ? (gamma += '0') : (gamma += '1')
+    zero < one ? (epsilon += '0') : (epsilon += '1')
   }
 
   decimalGamma = parseInt(gamma, 2)
@@ -41,18 +40,17 @@ function part2() {
   while (i < data[0].length && oxygen.length > 1) {
     let zero = 0
     let one = 0
-    oxygen.forEach(v => {
+    oxygen.forEach((v) => {
       v[i] == 0 ? zero++ : one++
     })
 
     console.log(oxygen)
     console.log(i, zero, one)
 
-    oxygen = oxygen.map(v => {
+    oxygen = oxygen.map((v) => {
       if (zero < one || zero == one) {
         if (v[i] == '1') return v
-      }
-      else if (zero > one) {
+      } else if (zero > one) {
         if (v[i] == '0') return v
       }
     })
@@ -68,18 +66,17 @@ function part2() {
   while (j < data[0].length && co2.length > 1) {
     let zero = 0
     let one = 0
-    co2.forEach(v => {
+    co2.forEach((v) => {
       v[j] == 0 ? zero++ : one++
     })
 
     console.log(co2)
     console.log(j, zero, one)
 
-    co2 = co2.map(v => {
+    co2 = co2.map((v) => {
       if (zero < one || zero == one) {
         if (v[j] == '0') return v
-      }
-      else if (zero > one) {
+      } else if (zero > one) {
         if (v[j] == '1') return v
       }
     })
