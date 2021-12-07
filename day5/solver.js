@@ -68,6 +68,49 @@ data.forEach(([from, to]) => {
       }
     }
   }
+  // Get diagonal lines
+  if (from.x != to.x && from.y != to.y) {
+    // console.log(from, to)
+    if (from.x < to.x) {
+      // Left to right
+      if (from.y < to.y) {
+        // console.log('lr-tb')
+        // Top to bottom
+        let x = from.x
+        for (let y = from.y; y <= to.y; y++, x++) {
+          // console.log(x, y)
+          diagram[y][x]++
+        }
+      } else {
+        // console.log('lr-bt')
+        // Bottom to top
+        let x = to.x
+        for (let y = to.y; y <= from.y; y++, x--) {
+          // console.log(x, y)
+          diagram[y][x]++
+        }
+      }
+    } else {
+      // Right to left
+      if (from.y < to.y) {
+        // console.log('rl-tb')
+        // Top to bottom
+        let x = from.x
+        for (let y = from.y; y <= to.y; y++, x--) {
+          // console.log(x, y)
+          diagram[y][x]++
+        }
+      } else {
+        // console.log('rl-bt')
+        // Bottom to top
+        let x = to.x
+        for (let y = to.y; y <= from.y; y++, x++) {
+          // console.log(x, y)
+          diagram[y][x]++
+        }
+      }
+    }
+  }
 })
 
 let result = diagram
