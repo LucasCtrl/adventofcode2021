@@ -1,4 +1,3 @@
-const { execSync } = require('child_process')
 const fs = require('fs')
 const read = fs.readFileSync('./day3/input.txt')
 let data = read.toString().split('\n').map(String)
