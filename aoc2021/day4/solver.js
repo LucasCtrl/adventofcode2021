@@ -2,54 +2,84 @@ const fs = require('fs')
 const read = fs.readFileSync('./day4/example.txt')
 let data = read.toString().split('\n\n').map(String)
 
-// ---------- Clean the input ----------
+// Clean input data
+let drawnNumbers = data.shift().split(',').map(Number)
+let boards = data.map((b) =>
+  b.split('\n').map((l) =>
+    l
+      .split(' ')
+      .filter((n) => n != '')
+      .map(Number)
+  )
+)
 
-let drawNumbers = data.shift().split(',').map(Number)
+console.log(drawnNumbers, boards)
 
-let boards = data.map(l => {
-  let newLine = l.split('\n')
-  return newLine
-})
-
-boards = boards.map(b => {
-  return b.map(l => {
-    return l.split(' ').filter(v => v != '').map(Number)
+// Mark number when it's drawn
+const markNumber = (number) => {
+  boards = boards.map((b) => {
+    return b.map((l) => {
+      return l.map((v) => {
+        return v == number ? 'X' : v
+      })
+    })
   })
-})
+}
 
-console.log(drawNumbers, boards)
+// Check the boards if there is not a winner
+const checkWinnerBoard = () => {
+  let winnerBoard = { winner: false }
 
-// ---------- Play the input ----------
-let i = 0
-let currentNumber
-let board = null
-
-while (i < drawNumbers.length && board == null) {
-  currentNumber = drawNumbers[i]
-
-  // Replace draw number
-  boards = boards.map(b => {
-    return b.map(l => {
-      return l.map(v => v == drawNumbers[i] ? 'X' : v)
+  // Check board row
+  boards.forEach((board) => {
+    board.forEach((line) => {
+      let nonCheckNumbers = line.filter((value) => value != 'X')
+      if (nonCheckNumbers.length == 0) {
+        winnerBoard = {
+          winner: true,
+          board: board,
+        }
+      }
     })
   })
 
-  console.log(currentNumber, boards)
-
-  // Check if Bingo
-  let j = 0
-  while(j < boards.length && board == null) {
-    // Check line
-
-    let test = boards[j].map(b => {
-      b = b.filter(v => v != 'X')
-      if (b.length == 0) return boards[j]
-      console.log(j, b)
+  // Check board column
+  boards.forEach((board) => {
+    // Invert rows and columns
+    board = board.map((_, colIndex) => board.map((row) => row[colIndex]))
+    board.forEach((line) => {
+      let nonCheckNumbers = line.filter((value) => value != 'X')
+      if (nonCheckNumbers.length == 0) {
+        winnerBoard = {
+          winner: true,
+          board: board,
+        }
+      }
     })
-    console.log(test)
+  })
 
-    j++
+  return winnerBoard
+}
+
+// Calc score
+const calcScore = (number, board) => {
+  let boardTotal = board
+    .join(',')
+    .split(',')
+    .filter((v) => v != 'X')
+    .map(Number)
+    .reduce((a, b) => a + b)
+  console.log(boardTotal)
+  return boardTotal * number
+}
+
+for (let i = 0; i < drawnNumbers.length; i++) {
+  console.log(drawnNumbers[i], boards)
+  markNumber(drawnNumbers[i])
+  if (checkWinnerBoard().winner == true) {
+    console.log('Winner!')
+    console.log(drawnNumbers[i], checkWinnerBoard().board)
+    console.log(calcScore(drawnNumbers[i], checkWinnerBoard().board))
+    break
   }
-
-  i++
 }
